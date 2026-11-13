@@ -31,7 +31,7 @@ def fix_comp(src):
     return re.sub(r'\bcomp_\d+\b', r, src)
 
 
-DUP = re.compile(r'(net\.minecraft(?:\.[\w$]+)+)\.\1')
+DUP = re.compile(r'((?:[A-Za-z_$][\w$]*\.)+[A-Za-z_$][\w$]*)\.\1\b')
 
 
 def fix_dup(src):
@@ -56,7 +56,7 @@ def fix_cmp(src):
     return src
 
 
-stats = {'comp': 0, 'dup': 0, 'cast': 0, 'cmp': 0}
+stats = {'comp': 0, 'dup': 0, 'pkg': 0, 'cast': 0, 'cmp': 0}
 for f in sorted(glob.glob(ROOT + '/**/*.java', recursive=True)):
     src = open(f, encoding='utf-8').read()
     orig = src
@@ -64,7 +64,10 @@ for f in sorted(glob.glob(ROOT + '/**/*.java', recursive=True)):
     if n:
         src = fix_comp(src)
         stats['comp'] += n
-    if re.search(r'net\.minecraft[\w.$]*\.net\.minecraft', src):
+    if 'com.com.mojang' in src:
+        src = src.replace('com.com.mojang', 'com.mojang')
+        stats['pkg'] += 1
+    if re.search(DUP, src):
         before = src
         src = fix_dup(src)
         stats['dup'] += (before != src)
