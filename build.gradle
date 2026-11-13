@@ -1,0 +1,67 @@
+plugins {
+    id 'fabric-loom' version '1.9.2'
+    id 'java'
+}
+
+group = 'net.hachimi'
+version = '2.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        name = 'Fabric'
+        url = 'https://maven.fabricmc.net/'
+    }
+    maven {
+        name = 'Llamalad7'
+        url = 'https://maven.llamalad7.dev/'
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:1.21.1"
+    mappings "net.fabricmc:yarn:1.21.1+build.3:v2"
+    modImplementation "net.fabricmc:fabric-loader:0.16.0"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.116.9+1.21.1"
+
+    implementation 'org.apache.httpcomponents:httpclient:4.5.14'
+    implementation 'org.slf4j:slf4j-api:2.0.13'
+
+    include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:0.4.1")))
+}
+
+// the decompiled sources are compiled in place, straight from the unpacked zip
+sourceSets {
+    main {
+        java {
+            srcDirs = [
+                'downloads/Hachimi-2.0.jar_Decompiler.com/net',
+                'downloads/Hachimi-2.0.jar_Decompiler.com/meteordevelopment'
+            ]
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+        }
+    }
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+    options.release = 21
+}
+
+loom {
+    accessWidenerPath = file('src/main/resources/hachimi.accesswidener')
+    mixin {
+        defaultRefmapName = 'Hachimi-refmap.json'
+    }
+}
+
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
