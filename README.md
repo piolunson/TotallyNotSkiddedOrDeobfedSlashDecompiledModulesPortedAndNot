@@ -10,6 +10,7 @@ This repository holds the **client sources** (`src/main/java`), remapped from in
 
 ## Current errors
 some fonts errors and sounds im working on it
+the built jar is outdated and not usable
 
 ## Requirements
 
