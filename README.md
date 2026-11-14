@@ -35,77 +35,31 @@ This repository holds the **client sources** (`src/main/java`), remapped from in
 
 ## What the GUI looks like
 
-> Reconstructed from the layout code (`ClickGuiScreen`, `CategoryFrame`, `ModuleButton`, `HUDModule`).
-> These are text diagrams, not screenshots — the client has not been run here.
-
-### ClickGUI
+![Hachimi ClickGUI](docs/clickgui.png)
 
 Seven draggable panels, one per category, laid out left to right from `(15, 15)` with `2 × scale` pixels between
-them. The whole screen is dimmed first, then each panel is drawn: header, body, and — under every expanded module —
-its config rows.
+them, over a screen dimmed to `#0D1017` at 73% alpha. Each panel has a `#0D1017` header at 93% alpha, a `#101418`
+body at 87% alpha (with optional blur), a 2 px accent bar on the left edge in the client colour, and a 1 px divider
+in the accent colour at 80 alpha under the header.
 
+Module rows are 103 × 13 px: white text when the module is on, grey when off, and the row tinted in the accent
+colour while enabled. Expanding a module reveals its config rows — checkbox (`BooleanConfig`), slider
+(`NumberConfig`), dropdown (`EnumConfig`), text field (`StringConfig`), colour picker (`ColorConfig`) and keybind.
+Hovering any row shows its description in a black tooltip next to the cursor, offset `+10 / -8` px. The Client panel
+additionally has a search box at the top.
+
+The image above is generated from the layout constants by `docs/render_clickgui.py` — it is not a screenshot, since
+the client has not been run here:
+
+```bash
+python3 docs/render_clickgui.py    # -> docs/clickgui.png (needs Pillow)
 ```
- +-- Combat ----------------+  +-- Miscellaneous ---------+  +-- Exploits --------------+
- | Aura                     |  | Timer                    |  | PacketFly                |
- | AutoCrystal              |  | ChestStealer             |  | Phase                    |
- |  +- Range    [====|--]   |  | AutoLogin                |  | Disabler                 |
- |  +- Target   [Players v] |  | AutoReconnect            |  | Backtrack                |
- |  +- Rotate   [x]         |  | AutoAFK                  |  | FakeLatency              |
- | AutoTotem                |  | ...                      |  | ...                      |
- | Surround                 |  |                          |  |                          |
- | ...                      |  |                          |  |                          |
- +--------------------------+  +--------------------------+  +--------------------------+
-
- hovering a row shows its description next to the cursor:
-
-                     +------------------------------+
-                     | Rotates towards the target   |
-                     +------------------------------+
-```
-
-Panel anatomy, as `CategoryFrame` and `ModuleButton` draw it:
-
-```
- +----------------------------------------------+----------------------------+
- | Combat                                       | panel header, 15 px        |
- +----------------------------------------------+----------------------------+
- |   Aura                                       | module row, 103 x 13 px    |
- |   AutoCrystal                                |                            |
- |   |- Range  [=======|--]                     | slider / NumberConfig      |
- |   |- Target [ Players v]                     | dropdown / EnumConfig      |
- |   |- Rotate [x]                              | checkbox / BooleanConfig   |
- |   ...                                        |                            |
- +----------------------------------------------+----------------------------+
-```
-
-Inside a panel: a 2 px accent bar on the left edge in the client colour, the category name in white, a 1 px divider
-under the header in the accent colour at 80 alpha, the body at `#101418` with an optional blur, and 103 × 13 px
-module rows. Every config type gets its own row widget: **checkbox** (`BooleanConfig`), **slider** (`NumberConfig`),
-**dropdown** (`EnumConfig`), **text field** (`StringConfig`), **colour picker** (`ColorConfig`) and **keybind**.
-The Client panel additionally has a search box at the top.
 
 ### HUD
 
-`HUDModule` draws the module arraylist on the right and a stack of info lines on the left:
-
-```
- Hachimi 2.0                                                   Aura
-                                                       AutoCrystal
-                                                          AutoTotem
-                                                           Surround
-                                                              Speed
-                                                             PacketFly
-
- XYZ 1234 / 64 / -890
- Nether 154 / 8 / -111
- FPS 240   Ping 32ms   TPS 19.9   Packets 41/s
- Speed 5.6 km/h   Facing North   Yaw 45.0 / Pitch 12.0
-
- [Helmet] [Chest] [Legs] [Boots]                      [Resistance II  1:48]
-                                                      [Speed II  0:12]
-```
-
-Each line is a toggle in the HUD module:
+The HUD is a separate overlay drawn in game (`HUDModule`): the **Hachimi 2.0** watermark in the top left, the
+animated module arraylist down the right edge, and info lines in the bottom left. Potion timers are a separate
+stack near the centre-right, armour and totems sit with the info lines, and every element is a toggle:
 
 | Element | Default | Element | Default |
 |---|---|---|---|
@@ -119,9 +73,8 @@ Each line is a toggle in the HUD module:
 | Potion effects (+ timers) | on | FPS | on |
 | Held item durability | off | Arraylist (ordering by length) | on |
 
-The arraylist is animated (2000 ms max), can be ordered and rendered upward/downward, supports rainbow modes, and
-hides modules marked hidden. Potion timers are drawn as a separate stack near the centre-right of the screen,
-with a configurable Y offset. Vanilla potion HUD and item-name display can each be left alone, hidden or replaced.
+The arraylist animates over up to 2000 ms, can be ordered and rendered upward or downward, and supports rainbow
+modes. Vanilla potion HUD and item-name display can each be left alone, hidden or replaced.
 
 ### Default palette
 
@@ -132,8 +85,8 @@ Taken from the colour constants in the code (`ClickGuiScreen`, `CategoryFrame`, 
 | Screen dim behind the GUI | `#0D1017` at 73% alpha |
 | Panel background | `#0D1017` at 93% alpha |
 | Panel body / module list | `#101418` at 87% alpha |
-| Accent (bars, dividers, active rows) | `#823CDC` (`Colors` module, default purple) |
-| Text | `#FFFFFF` |
+| Accent (bars, dividers, enabled rows) | `#823CDC` (`Colors` module, default purple) |
+| Text | `#FFFFFF`, grey `#AAAAAA` for disabled modules |
 | Description tooltip | `#000000` at 20–43% alpha |
 
 ### Sizes and behaviour
@@ -210,6 +163,8 @@ vclip       vanish      waypoint    yaw
 ```
 Hachimi-2.0-built.jar                 built client (Fabric 1.21.1, intermediary jar)
 Hachimi-2.0.jar_Decompiler.com.zip    original archive (CFR decompile, intermediary namespace)
+docs/clickgui.png                     ClickGUI render used above
+docs/render_clickgui.py               generator for that image
 src/main/java/net/hachimi/...         client sources after the Yarn 1.21.1 remap
 src/main/java/meteordevelopment/...   Discord IPC library used by the RPC module
 ```
