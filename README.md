@@ -8,6 +8,9 @@ This repository holds the **client sources** (`src/main/java`), remapped from in
 
 ---
 
+## Current errors
+some fonts errors and sounds im working on it
+
 ## Requirements
 
 | | |
@@ -187,11 +190,4 @@ not compile.
 
 ---
 
-## Credits
-
-Original client: **haodzzzzzzz** — https://hachimiclient.pw
-
-The sources here are the result of decompiling and remapping the original jar. The code belongs to its author;
-if you are the author and want this gone, get in touch and I will remove it.
-
-The client targets anarchy servers. Using it may break server rules — you do so at your own risk.
+The sources here are the result of decompiling and remapping the original jar.
