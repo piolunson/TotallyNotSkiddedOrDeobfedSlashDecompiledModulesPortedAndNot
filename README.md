@@ -1,39 +1,39 @@
 # Hachimi 2.0
 
-Klient PvP/anarchy na Fabric 1.21.1 — moduły combat, exploity, render, movement i GUI w stylu ClickGUI.
+A PvP/anarchy client for Fabric 1.21.1 — combat modules, exploits, rendering, movement and a ClickGUI.
 
-To repozytorium zawiera **źródła klienta** (`src/main/java`), zremapowane z intermediary (`class_1234`,
-`field_1234`, `method_1234`) na nazwy Yarn 1.21.1, zbudowany jar oraz oryginalne archiwum
+This repository holds the **client sources** (`src/main/java`), remapped from intermediary (`class_1234`,
+`field_1234`, `method_1234`) to Yarn 1.21.1 names, a built jar, and the original archive
 `Hachimi-2.0.jar_Decompiler.com.zip`.
 
 ---
 
-## Wymagania
+## Requirements
 
 | | |
 |---|---|
 | Minecraft | 1.21.1 |
-| Fabric Loader | 0.15.0 lub nowszy |
-| Fabric API | dowolna wersja dla 1.21.1 |
+| Fabric Loader | 0.15.0 or newer |
+| Fabric API | any build for 1.21.1 |
 | Java | 21 |
 
-## Instalacja
+## Installation
 
-1. Zainstaluj Fabric Loader dla 1.21.1.
-2. Wrzuć `fabric-api` oraz `Hachimi-2.0-built.jar` z tego repo do `.minecraft/mods/`.
-3. Uruchom grę — klient ładuje się jako mod (`environment: client`).
+1. Install Fabric Loader for 1.21.1.
+2. Drop `fabric-api` and `Hachimi-2.0-built.jar` from this repo into `.minecraft/mods/`.
+3. Launch the game — the client loads as a mod (`environment: client`).
 
-> Jar jest zbudowany z tych źródeł, ale **nie był uruchamiany w grze** — traktuj go jako build do sprawdzenia.
+> The jar is built from these sources but has **not been launched in game** — treat it as a build to test.
 
-## Sterowanie
+## Controls
 
-- **ClickGUI** — domyślnie pod klawiszem `ClickGui` (moduł w kategorii Client, można zmienić).
-- **Komendy** — prefix `.` (np. `.help`). Prefix i jego klawisz zmienia komenda `.prefix`.
-- W grze `.help` wypisze aktualną listę komend z opisami.
+- **ClickGUI** — bound to the `ClickGui` module key by default (Client category, rebindable).
+- **Commands** — prefix `.` (e.g. `.help`). The prefix and its key are changed with `.prefix`.
+- In game, `.help` prints the current command list with descriptions.
 
 ---
 
-## Moduły
+## Modules
 
 ### Combat
 Aura, AutoCrystal, PistonCrystal, AutoAnchor, Surround, AutoTrap, AutoCrawlTrap, AntiCrawl, SelfTrap, SelfFill,
@@ -68,7 +68,7 @@ HUD, CombatHud, ClickGui, Colors, Font, Socials, Rotations, Chat, Anticheat, RPC
 
 ---
 
-## Komendy
+## Commands
 
 Prefix `.`:
 
@@ -81,40 +81,42 @@ reset       resetgui    save        skingrab    stats       toggle
 vclip       vanish      waypoint    yaw
 ```
 
-Pełną listę z opisami i argumentami wypisuje `.help`.
+`.help` prints the full list with descriptions and arguments.
 
 ---
 
-## Struktura repozytorium
+## Repository layout
 
 ```
-Hachimi-2.0-built.jar                 zbudowany klient (Fabric 1.21.1, wersja intermediary)
-Hachimi-2.0.jar_Decompiler.com.zip    oryginalne archiwum (decompile CFR, namespace intermediary)
-src/main/java/net/hachimi/...         źródła klienta po remapie na Yarn 1.21.1
-src/main/java/meteordevelopment/...   Discord IPC (biblioteka używana przez moduł RPC)
+Hachimi-2.0-built.jar                 built client (Fabric 1.21.1, intermediary jar)
+Hachimi-2.0.jar_Decompiler.com.zip    original archive (CFR decompile, intermediary namespace)
+src/main/java/net/hachimi/...         client sources after the Yarn 1.21.1 remap
+src/main/java/meteordevelopment/...   Discord IPC library used by the RPC module
 ```
 
-## Stan źródeł
+## State of the sources
 
-- Remap: 775 plików, 10 533 odwołań do klas, 6 188 pól i 7 217 metod zamienione na nazwy Yarn 1.21.1+build.3.
-- Zostało **jedno** odwołanie intermediary: `method_51531` w `MixinChunkSkylightProvider` — Yarn nie ma dla niego nazwy, więc jest użyte jawnie w `@Inject` z komentarzem.
-- Drzewo kompilowało się czysto (Loom 1.9.2, MC 1.21.1, fabric-api 0.116.9+1.21.1) po naprawie artefaktów decompilera.
+- Remap: 775 files, 10 533 class references, 6 188 fields and 7 217 methods renamed to Yarn 1.21.1+build.3.
+- **One** intermediary reference remains: `method_51531` in `MixinChunkSkylightProvider` — Yarn has no name for
+  it, so it is used explicitly in `@Inject` with a comment.
+- The tree compiled cleanly (Loom 1.9.2, MC 1.21.1, fabric-api 0.116.9+1.21.1) once the decompiler artifacts
+  were repaired.
 - Java 21, Gradle 8.14+.
 
-## Budowanie
+## Building
 
-Repozytorium nie zawiera konfiguracji builda — do zbudowania jara trzeba podpiąć te źródła pod Fabric Loom
-dla MC 1.21.1 z mappingami `net.fabricmc:yarn:1.21.1+build.3:v2` i Fabric API `0.116.9+1.21.1`.
-Klient korzysta z access widenera (dostęp do pól i metod MC), więc build bez niego się nie skompiluje.
+This repository does not include a build setup — to produce a jar you need to wire these sources into Fabric
+Loom for MC 1.21.1 with `net.fabricmc:yarn:1.21.1+build.3:v2` mappings and Fabric API `0.116.9+1.21.1`.
+The client relies on an access widener (access to Minecraft fields and methods), so a build without one will
+not compile.
 
 ---
 
-## Autorzy i licencja
+## Credits
 
-Oryginalny klient: **haodzzzzzzz** — https://hachimiclient.pw
+Original client: **haodzzzzzzz** — https://hachimiclient.pw
 
-Źródła w tym repo są wynikiem dekompilacji i remapu oryginalnego jara. Kod należy do jego autora;
-jeśli jesteś autorem i chcesz, żeby to zniknęło — napisz, usunę.
+The sources here are the result of decompiling and remapping the original jar. The code belongs to its author;
+if you are the author and want this gone, get in touch and I will remove it.
 
-Klient jest przeznaczony do gry na serwerach anarchy. Używanie go może łamać regulamin serwerów —
-robisz to na własną odpowiedzialność.
+The client targets anarchy servers. Using it may break server rules — you do so at your own risk.
