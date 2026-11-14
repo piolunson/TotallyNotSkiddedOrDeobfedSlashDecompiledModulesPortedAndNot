@@ -34,9 +34,11 @@ public abstract class MixinTextVisitFactory implements Globals {
    )
    private static void debugTracer(String text, Style style, CharacterVisitor visitor, CallbackInfoReturnable<Boolean> cir) {
       if (mc == null || mc.player == null) {
-         StackTraceElement[] stack = Thread.currentThread().getStackTrace();
-         if (stack.length > 3) {
-            TRACER.info("[Trace] Text: '{}' | Caller: {}.{}:{}", text, stack[3].getClassName(), stack[3].getMethodName(), stack[3].getLineNumber());
+         if (TRACER.isDebugEnabled()) {
+            StackTraceElement[] stack = Thread.currentThread().getStackTrace();
+            if (stack.length > 3) {
+               TRACER.debug("[Trace] Text: '{}' | Caller: {}.{}:{}", text, stack[3].getClassName(), stack[3].getMethodName(), stack[3].getLineNumber());
+            }
          }
 
          try {
