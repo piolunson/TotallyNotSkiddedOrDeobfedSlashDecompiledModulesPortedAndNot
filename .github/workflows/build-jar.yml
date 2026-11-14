@@ -67,7 +67,7 @@ jobs:
           fi
           echo '--- git push failed ---'
           cat /tmp/err.txt
-          if gh release create v2.0 Hachimi-2.0-built.jar --title 'Hachimi 2.0' --notes 'Zbudowany jar: Fabric 1.21.1, loader 0.16+, wersja intermediary.'; then
+          if gh release create v2.0 Hachimi-2.0-built.jar --title 'Hachimi 2.0' --notes 'Zbudowany jar: Fabric 1.21.1, loader 0.16+.'; then
             echo 'jar opublikowany jako release v2.0'
             exit 0
           fi
