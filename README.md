@@ -3,7 +3,8 @@
 Klient PvP/anarchy na Fabric 1.21.1 — moduły combat, exploity, render, movement i GUI w stylu ClickGUI.
 
 To repozytorium zawiera **źródła klienta** (`src/main/java`), zremapowane z intermediary (`class_1234`,
-`field_1234`, `method_1234`) na nazwy Yarn 1.21.1, plus oryginalny archiwum `Hachimi-2.0.jar_Decompiler.com.zip`.
+`field_1234`, `method_1234`) na nazwy Yarn 1.21.1, zbudowany jar oraz oryginalne archiwum
+`Hachimi-2.0.jar_Decompiler.com.zip`.
 
 ---
 
@@ -19,10 +20,10 @@ To repozytorium zawiera **źródła klienta** (`src/main/java`), zremapowane z i
 ## Instalacja
 
 1. Zainstaluj Fabric Loader dla 1.21.1.
-2. Wrzuć `fabric-api` oraz jar klienta do `.minecraft/mods/`.
+2. Wrzuć `fabric-api` oraz `Hachimi-2.0-built.jar` z tego repo do `.minecraft/mods/`.
 3. Uruchom grę — klient ładuje się jako mod (`environment: client`).
 
-> W tym repo **nie ma** gotowego jara, tylko źródła. Klienta nie testowałem w grze po zbudowaniu.
+> Jar jest zbudowany z tych źródeł, ale **nie był uruchamiany w grze** — traktuj go jako build do sprawdzenia.
 
 ## Sterowanie
 
@@ -87,10 +88,10 @@ Pełną listę z opisami i argumentami wypisuje `.help`.
 ## Struktura repozytorium
 
 ```
-Hachimi-2.0.jar_Decompiler.com.zip   oryginalne archiwum (decompile CFR, namespace intermediary)
-src/main/java/net/hachimi/...        źródła klienta po remapie na Yarn 1.21.1
-src/main/java/meteordevelopment/...  Discord IPC (biblioteka używana przez moduł RPC)
-hachsmth-tohmvre/, hchm/             luźne pliki, nietknięte
+Hachimi-2.0-built.jar                 zbudowany klient (Fabric 1.21.1, wersja intermediary)
+Hachimi-2.0.jar_Decompiler.com.zip    oryginalne archiwum (decompile CFR, namespace intermediary)
+src/main/java/net/hachimi/...         źródła klienta po remapie na Yarn 1.21.1
+src/main/java/meteordevelopment/...   Discord IPC (biblioteka używana przez moduł RPC)
 ```
 
 ## Stan źródeł
@@ -112,8 +113,8 @@ Klient korzysta z access widenera (dostęp do pól i metod MC), więc build bez 
 
 Oryginalny klient: **haodzzzzzzz** — https://hachimiclient.pw
 
-Źródła w tym repo są wynikiem dekompilacji i remapu oryginalnego jara. Kod należły do jego autora;
+Źródła w tym repo są wynikiem dekompilacji i remapu oryginalnego jara. Kod należy do jego autora;
 jeśli jesteś autorem i chcesz, żeby to zniknęło — napisz, usunę.
 
 Klient jest przeznaczony do gry na serwerach anarchy. Używanie go może łamać regulamin serwerów —
-robią to na własną odpowiedzialność.
+robisz to na własną odpowiedzialność.
