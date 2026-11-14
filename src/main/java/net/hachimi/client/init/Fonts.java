@@ -32,8 +32,9 @@ public class Fonts {
       try {
          Identifier identifier = Identifier.of("hachimiclient", "font/verdana.ttf");
          InputStream stream = ((Resource)MinecraftClient.getInstance().getResourceManager().getResource(identifier).get()).getInputStream();
+         InputStream streamUnscaled = ((Resource)MinecraftClient.getInstance().getResourceManager().getResource(identifier).get()).getInputStream();
          CLIENT = new AWTFontRenderer((InputStream)(FONT_FILE_PATH.startsWith("assets") ? stream : new FileInputStream(FONT_FILE_PATH)), FONT_SIZE);
-         CLIENT_UNSCALED = new AWTFontRenderer((InputStream)(FONT_FILE_PATH.startsWith("assets") ? stream : new FileInputStream(FONT_FILE_PATH)), 9.0F);
+         CLIENT_UNSCALED = new AWTFontRenderer((InputStream)(FONT_FILE_PATH.startsWith("assets") ? streamUnscaled : new FileInputStream(FONT_FILE_PATH)), 9.0F);
       } catch (IOException var2) {
       }
 

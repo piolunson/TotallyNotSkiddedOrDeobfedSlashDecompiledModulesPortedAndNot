@@ -19,7 +19,7 @@ public class SoundManager implements Globals {
 
    private static SoundEvent registerSound(String name) {
       registerSoundFile(name + ".ogg");
-      Identifier id = Identifier.of("hachimi", name);
+      Identifier id = Identifier.of("hachimiclient", name);
       return (SoundEvent)Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
    }
 
