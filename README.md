@@ -33,6 +33,131 @@ This repository holds the **client sources** (`src/main/java`), remapped from in
 
 ---
 
+## What the GUI looks like
+
+> Reconstructed from the layout code (`ClickGuiScreen`, `CategoryFrame`, `ModuleButton`, `HUDModule`).
+> These are text diagrams, not screenshots — the client has not been run here.
+
+### ClickGUI
+
+Seven draggable panels, one per category, laid out left to right from `(15, 15)` with `2 × scale` pixels between
+them. The whole screen is dimmed first, then each panel is drawn: header, body, and — under every expanded module —
+its config rows.
+
+```
+ screen dimmed to #0D1017 at 73% alpha over the world
+
+ +-- Combat ---------------+  +-- Miscellaneous -------+  +-- Exploits ------------+
+ | Aura               [x] |  | Timer                  |  | PacketFly              |
+ | AutoCrystal            |  | ChestStealer           |  | Phase                  |
+ |  +- Range    [====|--] |  | AutoLogin              |  | Disabler               |
+ |  +- Target   [Players v]|  | AutoReconnect          |  | Backtrack              |
+ |  +- Rotate   [x]       |  | AutoAFK                |  | FakeLatency            |
+ | AutoTotem              |  | ...                    |  | ...                    |
+ | Surround               |  |                        |  |                        |
+ | ...                    |  |                        |  |                        |
+ +------------------------+  +------------------------+  +------------------------+
+
+ hovering a row shows its description next to the cursor:
+
+                     +------------------------------+
+                     | Rotates towards the target   |
+                     +------------------------------+
+```
+
+Panel anatomy, exactly as `CategoryFrame` and `ModuleButton` draw it:
+
+```
+ x                                                                        x + 105
+ +-----------------------------------------------------------------------------+
+ | |<- 2px accent bar (client colour, full alpha)                               |\
+ | |  Combat                                        header: 15px, #0D1017/93%   | | <- 15px
+ | +---------------------------------------------------------------------------+ |
+ |   Aura                                           module row: 103 x 13px     | |\
+ |   AutoCrystal                                    white text, 6px left pad    | | <- 13px per module
+ |   |- Range  [=======|--]                         slider (NumberConfig)       | |\
+ |   |- Target [ Players v]                         dropdown (EnumConfig)       | | <- config rows,
+ |   |- Rotate [x]                                  checkbox (BooleanConfig)    | |    only when expanded
+ |-----------------------------------------------------------------------------+ |
+ |  1px divider in accent colour at 80 alpha                                   |/
+ +-----------------------------------------------------------------------------+
+      body background #101418 at 87% alpha, optional blur behind the panel
+```
+
+Every config type gets its own row widget: **checkbox** (`BooleanConfig`), **slider** (`NumberConfig`),
+**dropdown** (`EnumConfig`), **text field** (`StringConfig`), **colour picker** (`ColorConfig`) and **keybind**.
+The Client panel additionally has a search box at the top.
+
+### HUD
+
+`HUDModule` draws the overlay from the module list on the right and a stack of info lines on the left:
+
+```
+ Hachimi 2.0                                                   Aura
+                                                       AutoCrystal
+                                                          AutoTotem
+                                                           Surround
+                                                              Speed
+                                                             PacketFly
+                                                               Purple
+
+ XYZ 1234 / 64 / -890
+ Nether 154 / 8 / -111
+ FPS 240   Ping 32ms   TPS 19.9   Packets 41/s
+ Speed 5.6 km/h   Facing North   Yaw 45.0 / Pitch 12.0
+
+ [Helmet] [Chest] [Legs] [Boots]                      [Resistance II  1:48]
+                                                      [Speed II  0:12]
+```
+
+Each line is a toggle in the HUD module, on or off by default:
+
+| Element | Default | Element | Default |
+|---|---|---|---|
+| Watermark (`Hachimi 2.0`) | on | Coordinates + nether coords | on |
+| Logo (top left, scale/opacity) | off | Server brand | off |
+| Server status warning | on | Chests in render distance | off |
+| User info | on | Speed (`km/h`, `m/s`, blocks) | on |
+| Facing direction (+ yaw/pitch) | on / off | Ping | on |
+| Armor (+ durability) | on / off | TPS | on |
+| Totems | off | Packets per second | off |
+| Potion effects (+ timers) | on | FPS | on |
+| Held item durability | off | Arraylist (ordering by length) | on |
+
+The arraylist is animated (2000 ms max), can be ordered and rendered upward/downward, supports rainbow modes, and
+hides modules marked hidden. Potion timers are drawn as a separate stack near the centre-right of the screen,
+with a configurable Y offset. Vanilla potion HUD and item-name display can each be left alone, hidden or replaced.
+
+### Default palette
+
+Taken from the colour constants in the code (`ClickGuiScreen`, `CategoryFrame`, `ColorsModule`):
+
+| Role | Value |
+|---|---|
+| Screen dim behind the GUI | `#0D1017` at 73% alpha |
+| Panel background | `#0D1017` at 93% alpha |
+| Panel body / module list | `#101418` at 87% alpha |
+| Accent (bars, dividers, active rows) | `#823CDC` (`Colors` module, default purple) |
+| Text | `#FFFFFF` |
+| Description tooltip | `#000000` at 20–43% alpha |
+
+### Sizes and behaviour
+
+| | |
+|---|---|
+| Panel width / header height | 105 px / 15 px |
+| Module row | 103 × 13 px |
+| Panel spacing | `2 × scale` px |
+| GUI scale | 0.5 – 3.0, default 1.0 |
+| Open / close animation | 200 ms, cubic in-out (frame), linear (overlay) |
+| Scroll speed | 5 – 100, default 30 |
+| Description box | offset `+10 / -8` px from the cursor |
+
+The panels are draggable by their header, clamp to the screen when scrolled, and the GUI does not pause the game
+(`shouldPause()` returns `false`).
+
+---
+
 ## Modules
 
 ### Combat
