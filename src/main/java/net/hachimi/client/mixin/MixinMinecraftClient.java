@@ -152,7 +152,7 @@ public abstract class MixinMinecraftClient implements IMinecraftClient {
                   EventBus.INSTANCE.dispatch(new EntityDeathEvent(e));
                   this.deadList.add(e.getId());
                } else if (!e.isDead()) {
-                  this.deadList.remove(e.getId());
+                  this.deadList.remove(Integer.valueOf(e.getId()));
                }
             }
          }
