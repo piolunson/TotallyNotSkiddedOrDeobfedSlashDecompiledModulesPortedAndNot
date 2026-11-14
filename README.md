@@ -45,18 +45,16 @@ them. The whole screen is dimmed first, then each panel is drawn: header, body, 
 its config rows.
 
 ```
- screen dimmed to #0D1017 at 73% alpha over the world
-
- +-- Combat ---------------+  +-- Miscellaneous -------+  +-- Exploits ------------+
- | Aura               [x] |  | Timer                  |  | PacketFly              |
- | AutoCrystal            |  | ChestStealer           |  | Phase                  |
- |  +- Range    [====|--] |  | AutoLogin              |  | Disabler               |
- |  +- Target   [Players v]|  | AutoReconnect          |  | Backtrack              |
- |  +- Rotate   [x]       |  | AutoAFK                |  | FakeLatency            |
- | AutoTotem              |  | ...                    |  | ...                    |
- | Surround               |  |                        |  |                        |
- | ...                    |  |                        |  |                        |
- +------------------------+  +------------------------+  +------------------------+
+ +-- Combat -----------------+  +-- Miscellaneous ---------+  +-- Exploits --------------+
+ | Aura                     |  | Timer                    |  | PacketFly                |
+ | AutoCrystal              |  | ChestStealer             |  | Phase                    |
+ |  +- Range    [====|--]   |  | AutoLogin                |  | Disabler                 |
+ |  +- Target   [Players v] |  | AutoReconnect            |  | Backtrack                |
+ |  +- Rotate   [x]         |  | AutoAFK                  |  | FakeLatency              |
+ | AutoTotem                |  | ...                      |  | ...                      |
+ | Surround                 |  |                          |  |                          |
+ | ...                      |  |                          |  |                          |
+ +--------------------------+  +--------------------------+  +--------------------------+
 
  hovering a row shows its description next to the cursor:
 
@@ -99,7 +97,6 @@ The Client panel additionally has a search box at the top.
                                                            Surround
                                                               Speed
                                                              PacketFly
-                                                               Purple
 
  XYZ 1234 / 64 / -890
  Nether 154 / 8 / -111
