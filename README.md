@@ -45,7 +45,7 @@ them. The whole screen is dimmed first, then each panel is drawn: header, body, 
 its config rows.
 
 ```
- +-- Combat -----------------+  +-- Miscellaneous ---------+  +-- Exploits --------------+
+ +-- Combat ----------------+  +-- Miscellaneous ---------+  +-- Exploits --------------+
  | Aura                     |  | Timer                    |  | PacketFly                |
  | AutoCrystal              |  | ChestStealer             |  | Phase                    |
  |  +- Range    [====|--]   |  | AutoLogin                |  | Disabler                 |
@@ -63,32 +63,30 @@ its config rows.
                      +------------------------------+
 ```
 
-Panel anatomy, exactly as `CategoryFrame` and `ModuleButton` draw it:
+Panel anatomy, as `CategoryFrame` and `ModuleButton` draw it:
 
 ```
- x                                                                        x + 105
- +-----------------------------------------------------------------------------+
- | |<- 2px accent bar (client colour, full alpha)                               |\
- | |  Combat                                        header: 15px, #0D1017/93%   | | <- 15px
- | +---------------------------------------------------------------------------+ |
- |   Aura                                           module row: 103 x 13px     | |\
- |   AutoCrystal                                    white text, 6px left pad    | | <- 13px per module
- |   |- Range  [=======|--]                         slider (NumberConfig)       | |\
- |   |- Target [ Players v]                         dropdown (EnumConfig)       | | <- config rows,
- |   |- Rotate [x]                                  checkbox (BooleanConfig)    | |    only when expanded
- |-----------------------------------------------------------------------------+ |
- |  1px divider in accent colour at 80 alpha                                   |/
- +-----------------------------------------------------------------------------+
-      body background #101418 at 87% alpha, optional blur behind the panel
+ +----------------------------------------------+----------------------------+
+ | Combat                                       | panel header, 15 px        |
+ +----------------------------------------------+----------------------------+
+ |   Aura                                       | module row, 103 x 13 px    |
+ |   AutoCrystal                                |                            |
+ |   |- Range  [=======|--]                     | slider / NumberConfig      |
+ |   |- Target [ Players v]                     | dropdown / EnumConfig      |
+ |   |- Rotate [x]                              | checkbox / BooleanConfig   |
+ |   ...                                        |                            |
+ +----------------------------------------------+----------------------------+
 ```
 
-Every config type gets its own row widget: **checkbox** (`BooleanConfig`), **slider** (`NumberConfig`),
+Inside a panel: a 2 px accent bar on the left edge in the client colour, the category name in white, a 1 px divider
+under the header in the accent colour at 80 alpha, the body at `#101418` with an optional blur, and 103 × 13 px
+module rows. Every config type gets its own row widget: **checkbox** (`BooleanConfig`), **slider** (`NumberConfig`),
 **dropdown** (`EnumConfig`), **text field** (`StringConfig`), **colour picker** (`ColorConfig`) and **keybind**.
 The Client panel additionally has a search box at the top.
 
 ### HUD
 
-`HUDModule` draws the overlay from the module list on the right and a stack of info lines on the left:
+`HUDModule` draws the module arraylist on the right and a stack of info lines on the left:
 
 ```
  Hachimi 2.0                                                   Aura
@@ -107,7 +105,7 @@ The Client panel additionally has a search box at the top.
                                                       [Speed II  0:12]
 ```
 
-Each line is a toggle in the HUD module, on or off by default:
+Each line is a toggle in the HUD module:
 
 | Element | Default | Element | Default |
 |---|---|---|---|
