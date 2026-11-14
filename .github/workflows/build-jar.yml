@@ -8,6 +8,7 @@ on:
 
 permissions:
   contents: write
+  issues: write
 
 jobs:
   jar:
@@ -49,14 +50,26 @@ jobs:
           cp -r downloads/unpacked/assets/. src/main/resources/assets/
           gradle build
           ls -l build/libs
-          cp build/libs/hachimi-2.0.jar Hachimi-2.0-built.jar
 
-      - name: Commit jar
+      - name: Publish jar
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
+          cp build/libs/hachimi-2.0.jar Hachimi-2.0-built.jar
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add -f Hachimi-2.0-built.jar
-          git status --short
-          git commit -m 'Add built Hachimi 2.0 jar' || echo 'nic do zacommitowania'
-          git push origin HEAD:main
+          git commit -m 'Add built Hachimi 2.0 jar' --quiet || true
+          if git push origin HEAD:main 2>/tmp/err.txt; then
+            echo 'jar wypchniety do repo'
+            exit 0
+          fi
+          echo '--- git push failed ---'
+          cat /tmp/err.txt
+          if gh release create v2.0 Hachimi-2.0-built.jar --title 'Hachimi 2.0' --notes 'Zbudowany jar: Fabric 1.21.1, loader 0.16+, wersja intermediary.'; then
+            echo 'jar opublikowany jako release v2.0'
+            exit 0
+          fi
+          gh issue create --title 'build-jar: publikacja jara nieudana' --body "$(tail -c 1200 /tmp/err.txt)" || true
+          exit 1
