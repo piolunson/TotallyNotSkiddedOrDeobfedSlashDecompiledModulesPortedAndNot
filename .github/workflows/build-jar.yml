@@ -56,6 +56,7 @@ jobs:
           set -euo pipefail
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add Hachimi-2.0-built.jar
-          git commit -m 'Add built Hachimi 2.0 jar'
-          git push
+          git add -f Hachimi-2.0-built.jar
+          git status --short
+          git commit -m 'Add built Hachimi 2.0 jar' || echo 'nic do zacommitowania'
+          git push origin HEAD:main
